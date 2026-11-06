@@ -5,10 +5,18 @@
   padding: 0;
 }
 
+:root {
+  --nasa-blue: #0b3d91;
+  --nasa-red: #fc3d21;
+  --space-navy: #071a33;
+  --text-dark: #17243a;
+}
+
 /* Base page styles */
 body {
   font-family: Arial, sans-serif;
-  background-color: #f1f1f1;
+  background-color: var(--space-navy);
+  color: white;
   padding: 20px;
 }
 
@@ -31,7 +39,7 @@ body {
 h1 {
   font-family: Verdana, sans-serif;
   font-weight: bold;
-  color: #212121;
+  color: white;
 }
 
 /* Logo */
@@ -55,7 +63,7 @@ input[type="date"],
 button {
   font-family: Arial, sans-serif;
   font-weight: normal;
-  color: #666;
+  color: var(--text-dark);
   padding: 10px 15px;
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -66,12 +74,17 @@ button {
 
 /* Button specific */
 button {
-  background-color: #d3d3d3;
-  color: black;
+  background-color: var(--nasa-blue);
+  color: white;
   cursor: pointer;
 }
 button:hover {
-  background-color: #bfbfbf;
+  background-color: var(--nasa-red);
+}
+
+button:disabled {
+  cursor: wait;
+  opacity: 0.7;
 }
 
 /* Stack horizontally on wider screens */
@@ -94,6 +107,31 @@ button:hover {
   gap: 20px;
   padding: 20px;
   justify-content: center;
+}
+
+.gallery-status {
+  flex: 1 1 100%;
+  padding: 24px;
+  color: white;
+  text-align: center;
+}
+
+.space-fact {
+  margin: 0 20px;
+  padding: 20px;
+  border-left: 4px solid var(--nasa-red);
+  border-radius: 6px;
+  background: rgba(11, 61, 145, 0.45);
+  color: white;
+}
+
+.space-fact h2 {
+  margin-bottom: 8px;
+  color: white;
+}
+
+.space-fact p {
+  line-height: 1.6;
 }
 
 /* Gallery items */
@@ -121,6 +159,16 @@ button.gallery-item:hover {
   background: white;
 }
 
+button.gallery-item img {
+  transition: filter 180ms ease, transform 180ms ease;
+}
+
+button.gallery-item:hover img {
+  filter: drop-shadow(0 0 10px rgba(11, 61, 145, 0.8))
+    drop-shadow(0 0 18px rgba(252, 61, 33, 0.35));
+  transform: scale(1.02);
+}
+
 button.gallery-item:focus-visible,
 .modal-close:focus-visible {
   outline: 3px solid #145da0;
@@ -137,8 +185,20 @@ button.gallery-item:focus-visible,
 .gallery-item img {
   width: 100%;
   height: 200px;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 4px;
+}
+
+.video-label {
+  display: inline-block;
+  align-self: flex-start;
+  margin-top: 8px;
+  padding: 6px 10px;
+  border-radius: 4px;
+  background: var(--nasa-red);
+  color: white;
+  font-size: 0.9rem;
+  font-weight: bold;
 }
 
 .gallery-item p {
@@ -152,7 +212,7 @@ button.gallery-item:focus-visible,
   flex: 1 1 100%;
   text-align: center;
   padding: 40px;
-  color: #666;
+  color: #d6e2f0;
 }
 
 .placeholder-icon {
@@ -164,7 +224,8 @@ button.gallery-item:focus-visible,
 .image-modal {
   position: fixed;
   inset: 50% auto auto 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) scale(0.96);
+  opacity: 0;
   width: min(90vw, 800px);
   max-height: 90vh;
   overflow: auto;
@@ -172,10 +233,36 @@ button.gallery-item:focus-visible,
   border: 0;
   border-radius: 8px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  color: var(--text-dark);
+  transition:
+    opacity 220ms ease,
+    transform 220ms ease,
+    display 220ms allow-discrete,
+    overlay 220ms allow-discrete;
+}
+
+.image-modal[open] {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+}
+
+@starting-style {
+  .image-modal[open] {
+    transform: translate(-50%, -50%) scale(0.96);
+    opacity: 0;
+  }
 }
 
 .image-modal::backdrop {
   background: rgba(0, 0, 0, 0.7);
+  transition: background-color 220ms ease, display 220ms allow-discrete,
+    overlay 220ms allow-discrete;
+}
+
+@starting-style {
+  .image-modal[open]::backdrop {
+    background-color: rgba(0, 0, 0, 0);
+  }
 }
 
 .modal-close {
@@ -186,6 +273,7 @@ button.gallery-item:focus-visible,
   margin-left: auto;
   padding: 4px 12px;
   font-size: 28px;
+  background-color: var(--nasa-red);
 }
 
 .modal-image {
@@ -196,6 +284,20 @@ button.gallery-item:focus-visible,
   object-fit: contain;
 }
 
+.image-modal [hidden] {
+  display: none;
+}
+
+.modal-video-link {
+  display: block;
+  width: fit-content;
+  margin: 0 auto 16px;
+  padding: 12px 18px;
+  border-radius: 4px;
+  background: var(--nasa-blue);
+  color: white;
+}
+
 .image-modal h2 {
   margin-bottom: 12px;
 }
@@ -203,4 +305,12 @@ button.gallery-item:focus-visible,
 .image-modal p {
   margin-top: 12px;
   line-height: 1.5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .image-modal,
+  .image-modal::backdrop,
+  button.gallery-item img {
+    transition: none;
+  }
 }
