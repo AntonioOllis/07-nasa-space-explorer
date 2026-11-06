@@ -220,7 +220,7 @@ button.gallery-item:focus-visible,
   margin-bottom: 20px;
 }
 
-/* APOD details dialog */
+/* NASA media details dialog */
 .image-modal {
   position: fixed;
   inset: 50% auto auto 50%;

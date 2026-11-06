@@ -31,10 +31,7 @@ const spaceFacts = [
   'Earth is the only planet in our solar system not named after a Roman or Greek god.'
 ];
 
-// Call the setupDateInputs function from dateRange.js
-// This sets up the date pickers to:
-// - Default to a range of 9 days (from 9 days ago to today)
-// - Restrict dates to NASA's image archive (starting from 1995)
+// Set up a default date range and valid NASA media-library dates.
 setupDateInputs(startInput, endInput);
 
 async function fetchNasaMediaPage(params) {
@@ -154,7 +151,7 @@ async function onButtonPress() {
   const loadingMessage = document.createElement('p');
   loadingMessage.className = 'gallery-status';
   loadingMessage.setAttribute('role', 'status');
-  loadingMessage.textContent = 'Loading images...';
+  loadingMessage.textContent = 'Loading NASA images and videos...';
   gallery.replaceChildren(loadingMessage);
   button.disabled = true;
 
@@ -197,7 +194,7 @@ async function onButtonPress() {
     });
   } catch (error) {
     console.error(error);
-    gallery.textContent = `Could not load the space images: ${error.message}`;
+    gallery.textContent = `Could not load NASA media: ${error.message}`;
   } finally {
     button.disabled = false;
   }

@@ -1,14 +1,12 @@
 
-// NOTE: You do not need to edit this file.
-
-// NASA's APOD API only has images from June 16, 1995 onwards
-const earliestDate = '1995-06-16';
+// NASA was established on October 1, 1958.
+const earliestDate = '1958-10-01';
 
 // Get today's date in YYYY-MM-DD format (required by date inputs)
 const today = new Date().toISOString().split('T')[0];
 
 function setupDateInputs(startInput, endInput) {
-  // Restrict date selection range from NASA's first image to today
+  // Restrict date selection to NASA's founding date through today.
   startInput.min = earliestDate;
   startInput.max = today;
   endInput.min = earliestDate;
